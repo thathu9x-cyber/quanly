@@ -1,0 +1,8 @@
+{
+  "name": "Remix Hưng Thịnh CQT - Quản lý tồn xuất nhập kho",
+  "description": "Hệ thống quản lý tồn xuất nhập kho và báo cáo doanh thu - CÔNG TY TNHH HƯNG THỊNH CQT",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

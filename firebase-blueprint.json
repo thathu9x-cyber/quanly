@@ -1,0 +1,136 @@
+{
+  "entities": {
+    "Product": {
+      "title": "Product",
+      "description": "Danh mục quy cách sản phẩm gỗ / vật tư",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "name": { "type": "string", "maxLength": 200 },
+        "size": { "type": "string", "maxLength": 200 },
+        "unit": { "type": "string", "maxLength": 50 },
+        "conversion_coefficient": { "type": "number" },
+        "created_at": { "type": "string", "format": "date-time" },
+        "updated_at": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "name", "size", "unit", "conversion_coefficient"]
+    },
+    "ImportRecord": {
+      "title": "ImportRecord",
+      "description": "Phiếu nhập kho vật tư",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "product_id": { "type": "string", "maxLength": 128 },
+        "import_date": { "type": "string", "format": "date-time" },
+        "so_luot": { "type": "number" },
+        "total_m3": { "type": "number" },
+        "created_at": { "type": "string", "format": "date-time" },
+        "updated_at": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "product_id", "import_date", "so_luot", "total_m3"]
+    },
+    "ExportRecord": {
+      "title": "ExportRecord",
+      "description": "Phiếu xuất kho bán hàng",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "product_id": { "type": "string", "maxLength": 128 },
+        "export_date": { "type": "string", "format": "date-time" },
+        "so_luot": { "type": "number" },
+        "total_m3": { "type": "number" },
+        "unit_price": { "type": "number" },
+        "revenue": { "type": "number" },
+        "note": { "type": "string", "maxLength": 500 },
+        "created_at": { "type": "string", "format": "date-time" },
+        "updated_at": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "product_id", "export_date", "so_luot", "total_m3", "unit_price", "revenue"]
+    },
+    "MonthlyReport": {
+      "title": "MonthlyReport",
+      "description": "Báo cáo doanh thu chi phí hàng tháng",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "year": { "type": "number" },
+        "month": { "type": "number" },
+        "total_import_m3": { "type": "number" },
+        "total_export_m3": { "type": "number" },
+        "total_revenue": { "type": "number" },
+        "cost_goods": { "type": "number" },
+        "cost_labor": { "type": "number" },
+        "cost_electricity": { "type": "number" },
+        "cost_capital": { "type": "number" },
+        "cost_other": { "type": "number" },
+        "total_cost": { "type": "number" },
+        "profit": { "type": "number" },
+        "finalized": { "type": "boolean" },
+        "published_at": { "type": "string", "format": "date-time" },
+        "published_by": { "type": "string", "maxLength": 100 },
+        "note": { "type": "string", "maxLength": 1000 },
+        "created_at": { "type": "string", "format": "date-time" },
+        "updated_at": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "year", "month", "total_import_m3", "total_export_m3", "total_revenue", "total_cost", "profit"]
+    },
+    "PinAccount": {
+      "title": "PinAccount",
+      "description": "Tài khoản nhân viên truy cập hệ thống theo mã PIN",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "pin": { "type": "string", "maxLength": 10 },
+        "name": { "type": "string", "maxLength": 100 },
+        "role": { "type": "string", "enum": ["admin", "nhap", "xem"] },
+        "created_at": { "type": "string", "format": "date-time" },
+        "updated_at": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "pin", "name", "role"]
+    },
+    "AuditLog": {
+      "title": "AuditLog",
+      "description": "Lịch sử thao tác nghiệp vụ kho",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "created_at": { "type": "string", "format": "date-time" },
+        "user_name": { "type": "string", "maxLength": 100 },
+        "user_pin": { "type": "string", "maxLength": 10 },
+        "user_role": { "type": "string", "enum": ["admin", "nhap", "xem"] },
+        "module": { "type": "string", "enum": ["import", "export", "product", "report", "pin"] },
+        "action": { "type": "string", "enum": ["create", "update", "delete", "finalize"] },
+        "title": { "type": "string", "maxLength": 200 },
+        "summary": { "type": "string", "maxLength": 500 }
+      },
+      "required": ["id", "created_at", "user_name", "user_pin", "module", "action", "title"]
+    }
+  },
+  "firestore": {
+    "/products/{productId}": {
+      "schema": "Product",
+      "description": "Danh mục sản phẩm lưu trữ trực tuyến"
+    },
+    "/imports/{importId}": {
+      "schema": "ImportRecord",
+      "description": "Phiếu nhập kho lưu trữ trực tuyến"
+    },
+    "/exports/{exportId}": {
+      "schema": "ExportRecord",
+      "description": "Phiếu xuất kho lưu trữ trực tuyến"
+    },
+    "/monthly_reports/{reportId}": {
+      "schema": "MonthlyReport",
+      "description": "Báo cáo tài chính doanh thu hàng tháng"
+    },
+    "/pin_accounts/{accountId}": {
+      "schema": "PinAccount",
+      "description": "Danh sách tài khoản mã PIN truy cập hệ thống"
+    },
+    "/audit_logs/{logId}": {
+      "schema": "AuditLog",
+      "description": "Lịch sử nhật ký hoạt động hệ thống"
+    }
+  }
+}
